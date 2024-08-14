@@ -38,17 +38,17 @@ public class Spawn : MonoBehaviour
             if (pivotNumber < 3)
             {
                 holderNumber = 0;
-                Debug.Log("PivotNumber: " + pivotNumber +"< 3 -> holderNumber = "+holderNumber);
+                //Debug.Log("PivotNumber: " + pivotNumber +"< 3 -> holderNumber = "+holderNumber);
             }
             if (pivotNumber > 2 && pivotNumber < 6)
             {
                 holderNumber = 1;
-                Debug.Log("6 > PivotNumber: " + pivotNumber +"> 2 -> holderNumber = "+holderNumber);
+                //Debug.Log("6 > PivotNumber: " + pivotNumber +"> 2 -> holderNumber = "+holderNumber);
             }
             if (pivotNumber > 5)
             {
                 holderNumber = 2;
-                Debug.Log("PivotNumber: " + pivotNumber +"> 5 -> holderNumber = "+holderNumber);
+                //Debug.Log("PivotNumber: " + pivotNumber +"> 5 -> holderNumber = "+holderNumber);
             }
             
             var card = Instantiate(cardList[randomCard], pivotHolder[pivotNumber].position, Quaternion.identity, holders[holderNumber]);

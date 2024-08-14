@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Combined Cards.unity
     guid: 9c4ba7d8c1757194d958a343753d0223
   - enabled: 1
-    path: Assets/Scenes/Matching Cards.unity
-    guid: 2c6301b37d45c8f42abbd51c9fd14921
+    path: Assets/Scenes/Matching Card.unity
+    guid: 12bde4e8e01388b448022de2fdcca685
   m_configObjects: {}

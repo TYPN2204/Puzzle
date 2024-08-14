@@ -4,9 +4,6 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {
     public CardMatching[] cards;
-    // public List<Transform> pivotHolder1;
-    // public List<Transform> pivotHolder2;
-    // public List<Transform> pivotHolder3;
     public List<Transform> pivotHolder;
     public List<Transform> holders;
     private List<CardMatching> cardList;
@@ -38,17 +35,14 @@ public class Spawn : MonoBehaviour
             if (pivotNumber < 3)
             {
                 holderNumber = 0;
-                //Debug.Log("PivotNumber: " + pivotNumber +"< 3 -> holderNumber = "+holderNumber);
             }
             if (pivotNumber > 2 && pivotNumber < 6)
             {
                 holderNumber = 1;
-                //Debug.Log("6 > PivotNumber: " + pivotNumber +"> 2 -> holderNumber = "+holderNumber);
             }
             if (pivotNumber > 5)
             {
                 holderNumber = 2;
-                //Debug.Log("PivotNumber: " + pivotNumber +"> 5 -> holderNumber = "+holderNumber);
             }
             
             var card = Instantiate(cardList[randomCard], pivotHolder[pivotNumber].position, Quaternion.identity, holders[holderNumber]);
@@ -57,7 +51,6 @@ public class Spawn : MonoBehaviour
             holders[holderNumber].GetComponent<HolderMatchingCards>().AddCardToHolder(card);
 
             cardList.RemoveAt(randomCard);
-            
             
             //còn trường hợp chia 3 thẻ cùng màu trong 1 ô
         }

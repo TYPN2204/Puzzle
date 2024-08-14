@@ -262,6 +262,9 @@ MonoBehaviour:
   holder: []
   addCardDone: 0
   gameManager: {fileID: 1171336714}
+  holder1Element0: {fileID: 7418459151831056476}
+  holder2Element0: {fileID: 6388380192164493665}
+  holder3Element0: {fileID: 701132252763919697}
 --- !u!1 &618702753
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +627,9 @@ MonoBehaviour:
   holder: []
   addCardDone: 0
   gameManager: {fileID: 1171336714}
+  holder1Element0: {fileID: 7418459151831056476}
+  holder2Element0: {fileID: 6388380192164493665}
+  holder3Element0: {fileID: 701132252763919697}
 --- !u!1 &1001647277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,6 +1240,9 @@ MonoBehaviour:
   holder: []
   addCardDone: 0
   gameManager: {fileID: 1171336714}
+  holder1Element0: {fileID: 7418459151831056476}
+  holder2Element0: {fileID: 6388380192164493665}
+  holder3Element0: {fileID: 701132252763919697}
 --- !u!1 &1881293948
 GameObject:
   m_ObjectHideFlags: 0

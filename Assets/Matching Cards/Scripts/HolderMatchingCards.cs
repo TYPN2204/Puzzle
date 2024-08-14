@@ -9,6 +9,7 @@ public class HolderMatchingCards : MonoBehaviour
     public List<CardMatching> holder;
     public bool addCardDone;
     public MatchingCardGameManager gameManager;
+    public GameObject holder1Element0, holder2Element0, holder3Element0;
     
     void Awake()
     {
@@ -67,18 +68,31 @@ public class HolderMatchingCards : MonoBehaviour
             this.AddCardToHolder(card);
             card.idHolderOfThisCard = this.idHolder;
             card.ordinalNumber = this.holder.Count - 1;
-            if (this.holder.Count < 3)
-            {
-                card.transform.SetParent(this.transform);
-                card.transform.position = Vector3.zero;
-                Vector3 movePos = new Vector3(0, -390, 0) + new Vector3(0,200,0)*card.ordinalNumber;
-                card.transform.DOJump(movePos,100,1,0.5f);
-            }
-            else if(this.holder.Count > 2)
+            
+            if (this.holder[0]!=card) //xem lỗi ở đây
             {
                 card.transform.SetParent(this.transform);
                 Vector3 movePos = this.holder[0].transform.position + new Vector3(0,200,0)*card.ordinalNumber;
                 card.transform.DOJump(movePos,100,1,0.5f);
+            }
+            else
+            {
+                card.transform.SetParent(this.transform);
+                if (this.idHolder == 0)
+                {
+                    Vector3 movePos1 = holder1Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
+                    card.transform.DOJump(movePos1,100,1,0.5f);
+                }
+                else if (this.idHolder == 1)
+                {
+                    Vector3 movePos2 = holder2Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
+                    card.transform.DOJump(movePos2,100,1,0.5f);
+                }
+                else if (this.idHolder == 2)
+                {
+                    Vector3 movePos3 = holder3Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
+                    card.transform.DOJump(movePos3,100,1,0.5f);
+                }
             }
         }
 

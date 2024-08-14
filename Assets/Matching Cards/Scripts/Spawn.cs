@@ -4,56 +4,62 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {
     public CardMatching[] cards;
-    public List<Transform> pivotHolder1;
-    public List<Transform> pivotHolder2;
-    public List<Transform> pivotHolder3;
+    // public List<Transform> pivotHolder1;
+    // public List<Transform> pivotHolder2;
+    // public List<Transform> pivotHolder3;
+    public List<Transform> pivotHolder;
     public List<Transform> holders;
     private List<CardMatching> cardList;
 
     void Start()
     {
-        int soLuongBaiCuaMauDo = 3;
-        for (int i = 0; i < soLuongBaiCuaMauDo; i++)
-        { 
-            cardList = new List<CardMatching>();
-            cardList.Add(cards[i]);
+        cardList = new List<CardMatching>();
+
+        int soLuongBaiCuaThe = 3;
+        for (int i = 0; i < cards.Length; i++)
+        {
+            for (int k = 0; k < soLuongBaiCuaThe; k++)
+            {
+                cardList.Add(cards[i]);
+            }
         }
         SpawnCard();
     }
 
     void SpawnCard()
     {
-        int randomPivotHolder1 = Random.Range(0, pivotHolder1.Count);
-        int randomPivotHolder2 = Random.Range(0, pivotHolder2.Count);
-        int randomPivotHolder3 = Random.Range(0, pivotHolder3.Count);
-        
-        // CardMatching card1 = Instantiate(cardSpawned, pivotHolder1[randomPivotHolder1].position, Quaternion.identity, holders[0]);
-        // holders[0].GetComponent<HolderMatchingCards>().AddCardToHolder(card1);
-        // card1.idHolderOfThisCard = holders[0].GetComponent<HolderMatchingCards>().idHolder;
-        //
-        // CardMatching card2 = Instantiate(cardSpawned, pivotHolder2[randomPivotHolder2].position, Quaternion.identity, holders[1]);
-        // holders[1].GetComponent<HolderMatchingCards>().AddCardToHolder(card2);
-        // card2.idHolderOfThisCard = holders[1].GetComponent<HolderMatchingCards>().idHolder;
-        //
-        // CardMatching card3 = Instantiate(cardSpawned, pivotHolder3[randomPivotHolder3].position, Quaternion.identity, holders[2]);
-        // holders[2].GetComponent<HolderMatchingCards>().AddCardToHolder(card3);
-        // card3.idHolderOfThisCard = holders[2].GetComponent<HolderMatchingCards>().idHolder;
-        //
-        // card1.ordinalNumber = pivotHolder1[randomPivotHolder1].GetComponent<PivotPosition>().pivotPosition;
-        // card2.ordinalNumber = pivotHolder2[randomPivotHolder2].GetComponent<PivotPosition>().pivotPosition;
-        // card3.ordinalNumber = pivotHolder3[randomPivotHolder3].GetComponent<PivotPosition>().pivotPosition;
-        
-        pivotHolder1.RemoveAt(randomPivotHolder1);
-        
-        pivotHolder2.RemoveAt(randomPivotHolder2);
-        
-        pivotHolder3.RemoveAt(randomPivotHolder3);
-        
-        if (pivotHolder1.Count == 0 && pivotHolder2.Count == 0 && pivotHolder3.Count == 0) return;
+        for (int pivotNumber = 0; pivotNumber < pivotHolder.Count; pivotNumber++)
+        {
+            //chia bài ngẫu nhiên vào lần lượt vị trí
+            int randomCard = Random.Range(0, cardList.Count);
+            int holderNumber = 0;
+            
+            //chia bài theo cột holder1: 0-2, holder2: 3-5, holder3: 6-8 
+            if (pivotNumber < 3)
+            {
+                holderNumber = 0;
+                Debug.Log("PivotNumber: " + pivotNumber +"< 3 -> holderNumber = "+holderNumber);
+            }
+            if (pivotNumber > 2 && pivotNumber < 6)
+            {
+                holderNumber = 1;
+                Debug.Log("6 > PivotNumber: " + pivotNumber +"> 2 -> holderNumber = "+holderNumber);
+            }
+            if (pivotNumber > 5)
+            {
+                holderNumber = 2;
+                Debug.Log("PivotNumber: " + pivotNumber +"> 5 -> holderNumber = "+holderNumber);
+            }
+            
+            var card = Instantiate(cardList[randomCard], pivotHolder[pivotNumber].position, Quaternion.identity, holders[holderNumber]);
+            card.idHolderOfThisCard = holders[holderNumber].GetComponent<HolderMatchingCards>().idHolder;
+            card.ordinalNumber = pivotHolder[pivotNumber].GetComponent<PivotPosition>().pivotPosition;
+            holders[holderNumber].GetComponent<HolderMatchingCards>().AddCardToHolder(card);
 
-        // foreach (var VARIABLE in )
-        // {
-        //     
-        // }
+            cardList.RemoveAt(randomCard);
+            
+            
+            //còn trường hợp chia 3 thẻ cùng màu trong 1 ô
+        }
     }
 }

@@ -452,15 +452,13 @@ MonoBehaviour:
   - {fileID: 5899000938747533258, guid: 4aaebc2eeed5b984fabadb969e190f82, type: 3}
   - {fileID: 963997672447000565, guid: e6d6c414e58e8794bbfb997f1b006059, type: 3}
   - {fileID: -8624403644124279837, guid: 02cc634061288b74b931f06638f1770b, type: 3}
-  pivotHolder1:
+  pivotHolder:
   - {fileID: 5139353055483041753}
   - {fileID: 1380158442}
   - {fileID: 2127468182}
-  pivotHolder2:
   - {fileID: 897727174147813011}
   - {fileID: 1747744391}
   - {fileID: 1881293949}
-  pivotHolder3:
   - {fileID: 4493941663452530735}
   - {fileID: 1077773207}
   - {fileID: 1442345376}

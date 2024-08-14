@@ -22,15 +22,17 @@ public class HolderMatchingCards : MonoBehaviour
     {
         List<CardMatching> selectedCards = new List<CardMatching>();
         
-        //kiểm tra các phần tử tiếp theo có cùng màu với thẻ trên cùng không
+        //kiểm tra các phần tử tiếp theo có cùng màu với thẻ trên cùng không, nếu giống thì thêm vào list selected cards
 
         var newList = holder.OrderByDescending(x => x.ordinalNumber).ToList();
         foreach (var cardList in newList)
         {
+            int count = newList.Count;
             if (cardList.idCard == newList[0].idCard)
             {
                 selectedCards.Add(cardList);
             }
         }
+        
     }
 }

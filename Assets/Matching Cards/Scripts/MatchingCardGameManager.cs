@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 public class MatchingCardGameManager : MonoBehaviour
 {
     public List<CardMatching> selectedCards;
@@ -62,22 +64,27 @@ public class MatchingCardGameManager : MonoBehaviour
                 break;
         }
     }
-    void RestartGame()
+    public void RestartGame()
     {
         SceneManager.LoadScene("Matching Card", LoadSceneMode.Single);
     }
     public void AddCard(CardMatching card)
     {
         selectedCards.Add(card);
-        CheckEnoughCards();
+        StartCoroutine(CheckEnoughCards());
     }
 
-    void CheckEnoughCards()
+    IEnumerator CheckEnoughCards()
     {
         if (selectedCards.Count == 3)
         {
             foreach (var card in selectedCards)
             {
+                yield return new WaitForSeconds(0.5f);
+                Vector3 movePos = card.transform.position + new Vector3(0, 200, 0);
+                card.transform.DOMove(movePos, 0.25f);
+                card.GetComponent<Image>().DOFade(0, 0.25f);
+                yield return new WaitForSeconds(0.3f);
                 Destroy(card.gameObject);
             }
             selectedCards.Clear();

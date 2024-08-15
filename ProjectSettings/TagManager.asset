@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Return
+  - Green Card
+  - Red Card
+  - Yellow Card
   layers:
   - Default
   - TransparentFX

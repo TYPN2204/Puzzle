@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
 public class HolderMatchingCards : MonoBehaviour
@@ -12,13 +11,13 @@ public class HolderMatchingCards : MonoBehaviour
     public bool matchingCard;
     public MatchingCardGameManager gameManager;
     public GameObject holder1Element0, holder2Element0, holder3Element0;
-    
+    public GameObject cardLogo;
+
     void Awake()
     {
         holder = new List<CardMatching>();
         addCardDone = false;
         matchingCard = false;
-        //this.GetComponent<Button>().onClick.AddListener(ButtonChosen);
     }
 
     void Start()
@@ -151,13 +150,37 @@ public class HolderMatchingCards : MonoBehaviour
             {
                 matchingCard = true;
                 yield return new WaitForSeconds(0.15f);
-                Vector3 movePos = card.transform.position + new Vector3(0,-0.2f,-0.1f);
-                card.transform.DOMove(movePos, 0.15f).SetEase(Ease.Linear);
-                card.GetComponent<Image>().DOFade(0, 0.15f).SetEase(Ease.Linear);
+                
+                //effect
+                // Vector3 movePos = card.transform.position + new Vector3(0,-0.2f,-0.1f);
+                // card.transform.DOMove(movePos, 0.15f).SetEase(Ease.Linear);
+                // card.GetComponent<Image>().DOFade(0, 0.15f).SetEase(Ease.Linear);
+                card.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.3f).SetEase(Ease.InExpo).OnComplete(() =>
+                {
+                    card.transform.DOScale(Vector3.zero, 1.25f);
+                    if (card.transform.position.x < cardLogo.transform.position.x)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, -90), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    else if (card.transform.position.x == cardLogo.transform.position.x)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, 0), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    else if (card.transform.position.x > cardLogo.transform.position.x)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, 90), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    card.transform.DOJump(cardLogo.transform.position, 1, 1, 1f).SetEase(Ease.InQuad).OnComplete(() =>
+                    {
+                        cardLogo.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.5f, 4);
+                    });
+                });
+                
+                
                 holder.Remove(card);
                 yield return new WaitForSeconds(0.15f);
                 matchingCard = false;
-                Destroy(card.gameObject);
+                Destroy(card.gameObject,2);
             }
             
         }

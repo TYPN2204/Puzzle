@@ -9,6 +9,7 @@ public class MatchingCardGameManager : MonoBehaviour
     public List<CardMatching> selectedCards;
     public Button restart;
     public HolderMatchingCards holder1, holder2, holder3;
+    public GameObject cardLogo;
     private void Awake()
     {
         selectedCards = new List<CardMatching>();
@@ -78,11 +79,31 @@ public class MatchingCardGameManager : MonoBehaviour
             foreach (var card in selectedCards)
             {
                 yield return new WaitForSeconds(0.5f);
-                Vector3 movePos = card.transform.position + new Vector3(0, -0.5f, 0);
-                card.transform.DOMove(movePos, 0.25f);
-                card.GetComponent<Image>().DOFade(0, 0.25f);
-                yield return new WaitForSeconds(0.3f);
-                Destroy(card.gameObject);
+                card.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.3f).SetEase(Ease.InExpo).OnComplete(() =>
+                {
+                    card.transform.DOScale(Vector3.zero, 1.25f);
+                    if (card.idHolderOfThisCard == 0)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, -90), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    else if (card.idHolderOfThisCard == 1)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, 0), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    else if (card.idHolderOfThisCard == 2)
+                    {
+                        card.transform.DORotate(new Vector3(0, 0, 90), 1f).SetEase(Ease.InOutQuad);
+                    }
+                    card.transform.DOJump(cardLogo.transform.position, 3, 1, 1f).SetEase(Ease.InQuad).OnComplete(() =>
+                    {
+                        cardLogo.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), 0.5f, 4);
+                    });
+                });
+                //Vector3 movePos = card.transform.position + new Vector3(0, -0.5f, 0);
+                //card.transform.DOMove(movePos, 0.25f);
+                //card.GetComponent<SpriteRenderer>().DOFade(0, 0.25f);
+                //yield return new WaitForSeconds(0.3f);
+                Destroy(card.gameObject,2);
             }
             selectedCards.Clear();
         }

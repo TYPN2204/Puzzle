@@ -9,6 +9,7 @@ public class HolderMatchingCards : MonoBehaviour
     public int idHolder;
     public List<CardMatching> holder;
     public bool addCardDone;
+    public bool matchingCard;
     public MatchingCardGameManager gameManager;
     public GameObject holder1Element0, holder2Element0, holder3Element0;
     
@@ -16,7 +17,8 @@ public class HolderMatchingCards : MonoBehaviour
     {
         holder = new List<CardMatching>();
         addCardDone = false;
-        this.GetComponent<Button>().onClick.AddListener(ButtonChosen);
+        matchingCard = false;
+        //this.GetComponent<Button>().onClick.AddListener(ButtonChosen);
     }
 
     void Start()
@@ -24,7 +26,7 @@ public class HolderMatchingCards : MonoBehaviour
         CheckSpawn();
     }
 
-    public void CheckSpawn()
+    void CheckSpawn()
     {
         int countColor = 0;
         foreach (var card in holder)
@@ -46,15 +48,19 @@ public class HolderMatchingCards : MonoBehaviour
         holder.Add(card);
     }
     
-    void ButtonChosen()
+    public void ButtonChosen()
     { 
         //kiểm tra các phần tử tiếp theo có cùng màu với thẻ trên cùng không, nếu giống thì thêm vào list selected cards
-
+        //Nếu đang ghép thẻ thì k thể bấm
+        if (matchingCard)
+        {
+            return;
+        }
         if (!addCardDone)
         {
             LayThe();
         }
-        else
+        else if (addCardDone)
         {
             NhanThe();
         }
@@ -69,8 +75,8 @@ public class HolderMatchingCards : MonoBehaviour
             {
                 gameManager.AddCard(cardList);
                 this.holder.Remove(cardList);
-                Vector3 movePos = cardList.transform.position + new Vector3(0,200,0);
-                cardList.transform.DOMove(movePos, 0.25f);
+                Vector3 movePos = cardList.transform.position + new Vector3(0,-0.2f,0);
+                cardList.transform.DOMove(movePos, 0.15f);
             }
             else break;
         }
@@ -82,7 +88,7 @@ public class HolderMatchingCards : MonoBehaviour
         newList.Clear();
     }
 
-    void NhanThe()     // lỗi di chuyển
+    void NhanThe()
     {
         var selectedList = gameManager.selectedCards.OrderBy(x => x.ordinalNumber).ToList();
 
@@ -95,28 +101,26 @@ public class HolderMatchingCards : MonoBehaviour
             
             if(this.holder.Count < 3 && this.holder[0].idCard == card.idCard)
             {
-                card.transform.SetParent(this.transform);
                 if (this.idHolder == 0)
                 {
-                    Vector3 movePos1 = holder1Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
-                    card.transform.DOJump(movePos1,100,1,0.5f);
+                    Vector3 movePos1 = holder1Element0.transform.position + new Vector3(0,-0.2f,-0.1f) *card.ordinalNumber;
+                    card.transform.DOJump(movePos1,-1,1,0.15f).SetEase(Ease.Linear);
                 }
                 else if (this.idHolder == 1)
                 {
-                    Vector3 movePos2 = holder2Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
-                    card.transform.DOJump(movePos2,100,1,0.5f);
+                    Vector3 movePos2 = holder2Element0.transform.position + new Vector3(0,-0.2f,-0.1f)*card.ordinalNumber;
+                    card.transform.DOJump(movePos2,-1,1,0.15f).SetEase(Ease.Linear);
                 }
                 else if (this.idHolder == 2)
                 {
-                    Vector3 movePos3 = holder3Element0.transform.position + new Vector3(0,200,0)*card.ordinalNumber;
-                    card.transform.DOJump(movePos3,100,1,0.5f);
+                    Vector3 movePos3 = holder3Element0.transform.position + new Vector3(0,-0.2f,-0.1f)*card.ordinalNumber;
+                    card.transform.DOJump(movePos3,-1,1,0.15f).SetEase(Ease.Linear);
                 }
             }
             else
             {
-                card.transform.SetParent(this.transform);
-                Vector3 movePos = this.holder[0].transform.position + new Vector3(0,200,0)*card.ordinalNumber;
-                card.transform.DOJump(movePos,100,1,0.5f);
+                Vector3 movePos = this.holder[0].transform.position + new Vector3(0,-0.2f,-0.1f)*card.ordinalNumber;
+                card.transform.DOJump(movePos,-1,1,0.15f);
             }
         }
 
@@ -145,11 +149,14 @@ public class HolderMatchingCards : MonoBehaviour
         {
             foreach (var card in cardsSameColor)
             {
-                yield return new WaitForSeconds(0.5f);
-                Vector3 movePos = card.transform.position + new Vector3(0, 200, 0);
-                card.transform.DOMove(movePos, 0.25f);
-                card.GetComponent<Image>().DOFade(0, 0.25f);
-                yield return new WaitForSeconds(0.3f);
+                matchingCard = true;
+                yield return new WaitForSeconds(0.15f);
+                Vector3 movePos = card.transform.position + new Vector3(0,-0.2f,-0.1f);
+                card.transform.DOMove(movePos, 0.15f).SetEase(Ease.Linear);
+                card.GetComponent<Image>().DOFade(0, 0.15f).SetEase(Ease.Linear);
+                holder.Remove(card);
+                yield return new WaitForSeconds(0.15f);
+                matchingCard = false;
                 Destroy(card.gameObject);
             }
             

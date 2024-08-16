@@ -8,6 +8,9 @@ TagManager:
   - Green Card
   - Red Card
   - Yellow Card
+  - Holder1
+  - Holder2
+  - Holder3
   layers:
   - Default
   - TransparentFX

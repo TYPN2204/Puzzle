@@ -8,7 +8,7 @@ public class MatchingCardGameManager : MonoBehaviour
 {
     public List<CardMatching> selectedCards;
     public Button restart;
-    public Button holder1, holder2, holder3;
+    public HolderMatchingCards holder1, holder2, holder3;
     private void Awake()
     {
         selectedCards = new List<CardMatching>();
@@ -17,49 +17,46 @@ public class MatchingCardGameManager : MonoBehaviour
     void Start()
     {
         restart.onClick.AddListener(RestartGame);
-        holder1.onClick.AddListener(() => HolderClick(1));
-        holder2.onClick.AddListener(() => HolderClick(2));
-        holder3.onClick.AddListener(() => HolderClick(3));
     }
 
-    void HolderClick(int holderNumber)
+    public void HolderClick(int holderNumber)
     {
         switch (holderNumber)
         {
             case 1:
-                if (holder1.GetComponent<HolderMatchingCards>().addCardDone)
+                if (holder1.addCardDone)
                 {
-                    holder2.GetComponent<HolderMatchingCards>().addCardDone = true;
-                    holder3.GetComponent<HolderMatchingCards>().addCardDone = true;
+                    holder2.addCardDone = true;
+                    holder3.addCardDone = true;
                 }
                 else
                 {
-                    holder2.GetComponent<HolderMatchingCards>().addCardDone = false;
-                    holder3.GetComponent<HolderMatchingCards>().addCardDone = false;
+                    holder2.addCardDone = false;
+                    holder3.addCardDone = false;
                 }
                 break;            
             case 2:
-                if (holder2.GetComponent<HolderMatchingCards>().addCardDone)
+                if (holder2.addCardDone)
                 {
-                    holder1.GetComponent<HolderMatchingCards>().addCardDone = true;
-                    holder3.GetComponent<HolderMatchingCards>().addCardDone = true;
+                    holder1.addCardDone = true;
+                    holder3.addCardDone = true;
                 }
                 else
                 {
-                    holder1.GetComponent<HolderMatchingCards>().addCardDone = false;
-                    holder3.GetComponent<HolderMatchingCards>().addCardDone = false;
+                    holder1.addCardDone = false;
+                    holder3.addCardDone = false;
                 }
                 break;
             case 3:
-                if (holder3.GetComponent<HolderMatchingCards>().addCardDone)
+                if (holder3.addCardDone)
                 {
-                    holder1.GetComponent<HolderMatchingCards>().addCardDone = true;
-                    holder2.GetComponent<HolderMatchingCards>().addCardDone = true;
+                    holder1.addCardDone = true;
+                    holder2.addCardDone = true;
                 }
                 else
                 {
-                    holder1.GetComponent<HolderMatchingCards>().addCardDone = false;
-                    holder2.GetComponent<HolderMatchingCards>().addCardDone = false;
+                    holder1.addCardDone = false;
+                    holder2.addCardDone = false;
                 }
                 break;
         }
@@ -81,7 +78,7 @@ public class MatchingCardGameManager : MonoBehaviour
             foreach (var card in selectedCards)
             {
                 yield return new WaitForSeconds(0.5f);
-                Vector3 movePos = card.transform.position + new Vector3(0, 200, 0);
+                Vector3 movePos = card.transform.position + new Vector3(0, -0.5f, 0);
                 card.transform.DOMove(movePos, 0.25f);
                 card.GetComponent<Image>().DOFade(0, 0.25f);
                 yield return new WaitForSeconds(0.3f);
